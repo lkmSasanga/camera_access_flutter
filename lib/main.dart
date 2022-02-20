@@ -7,21 +7,24 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_kit/glass_kit.dart';
+import 'package:test_project/utils/camera.dart';
 import 'package:test_project/utils/take_picture_screen.dart';
+// import 'package:test_project/utils/camera.dart';
+// import 'package:camera_camera/camera_camera.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final cameras = await availableCameras();
+  var firstCamera = cameras.first;
 
-  final firstCamera = cameras.first;
   runApp(
     MaterialApp(
       theme: ThemeData.dark(),
       home: landingPage(
-          // Pass the appropriate camera to the TakePictureScreen widget.
-          // camera: firstCamera,
-          ),
+        // Pass the appropriate camera to the TakePictureScreen widget.
+        camera: firstCamera,
+      ),
     ),
   );
 }
@@ -44,10 +47,11 @@ Future<void> main() async {
 class landingPage extends StatefulWidget {
   const landingPage({
     Key? key,
-    // required this.camera,
+    required this.camera,
   }) : super(key: key);
 
-  // final CameraDescription camera;
+
+  final CameraDescription camera;
   @override
   State<landingPage> createState() => _landingPageState();
 }
@@ -129,18 +133,20 @@ class _landingPageState extends State<landingPage> {
                                   fontStyle: FontStyle.italic,
                                 ),
                               ),
+                              // TakePictureScreen(
+                              //   camera: firstCamera,
+                              // ),
+                              // Camera()
                             ],
                           ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // TakePictureScreen(
-                            //   camera: firstCamera,
-                            // ),
                             RaisedButton(
                                 onPressed: () {
                                   // ignore: avoid_print
                                   print("btn clicked");
+                                  print(this.firstCamera);
                                   setState(() {
                                     showCamera = !showCamera;
                                   });
