@@ -2,26 +2,26 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:glass_kit/glass_kit.dart';
 import 'package:test_project/utils/take_picture_screen.dart';
 
-Future <void> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final cameras = await availableCameras();
 
   final firstCamera = cameras.first;
   runApp(
-     MaterialApp(
+    MaterialApp(
       theme: ThemeData.dark(),
-      home: TakePictureScreen(
-        // Pass the appropriate camera to the TakePictureScreen widget.
-        camera: firstCamera,
-      ),
+      home: landingPage(
+          // Pass the appropriate camera to the TakePictureScreen widget.
+          // camera: firstCamera,
+          ),
     ),
   );
 }
@@ -44,15 +44,18 @@ Future <void> main() async {
 class landingPage extends StatefulWidget {
   const landingPage({
     Key? key,
-    required this.camera,
+    // required this.camera,
   }) : super(key: key);
 
-  final CameraDescription camera;
+  // final CameraDescription camera;
   @override
   State<landingPage> createState() => _landingPageState();
 }
 
+// ignore: camel_case_types
 class _landingPageState extends State<landingPage> {
+  var showCamera = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,20 +117,40 @@ class _landingPageState extends State<landingPage> {
                         SizedBox(
                           height: 250.0,
                         ),
+                        if (showCamera)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Camera",
+                                style: TextStyle(
+                                  color: Colors.cyan[900],
+                                  fontSize: 18.0,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                            ],
+                          ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // TakePictureScreen(
-                            //   camera: this.firstCamera,
+                            //   camera: firstCamera,
                             // ),
                             RaisedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  // ignore: avoid_print
+                                  print("btn clicked");
+                                  setState(() {
+                                    showCamera = !showCamera;
+                                  });
+                                },
                                 color: Colors.lightBlue[400],
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25.0),
                                 ),
                                 child: Text(
-                                  "Next",
+                                  "Scan",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
